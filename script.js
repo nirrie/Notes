@@ -32,6 +32,7 @@ const addNote = (text = "", title = "") => {
     note.innerHTML = `
         <div class="icons">
             <i class="share fa-solid fa-arrow-up-from-bracket"></i>
+            <i class="fa-solid fa-file-arrow-down"></i>
             <i class="save fas fa-save"></i>
             <i class="trash fas fa-trash"></i>
         </div>
@@ -77,7 +78,7 @@ const addNote = (text = "", title = "") => {
     saveNotes();
 };
 
-// Load Notes from LocalStorage
+// loadotes from LocalStorage
 function loadNotes() {
     const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
     savedNotes.forEach((note) => {
