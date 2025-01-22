@@ -32,7 +32,7 @@ const addNote = (text = "", title = "") => {
     note.innerHTML = `
         <div class="icons">
             <i class="share fa-solid fa-arrow-up-from-bracket"></i>
-            <i class="fa-solid fa-file-arrow-down"></i>
+            <i class="markdown fa-solid fa-file-arrow-down"></i>
             <i class="save fas fa-save"></i>
             <i class="trash fas fa-trash"></i>
         </div>
@@ -43,8 +43,23 @@ const addNote = (text = "", title = "") => {
     main.appendChild(note);
 
     const shareBtn = note.querySelector(".share");
+    const markdownBtn = note.querySelector(".markdown");
     const saveButton = note.querySelector(".save");
     const delBtn = note.querySelector(".trash");
+
+    const downloadNoteAsMarkdown = () => {
+        const noteTitle = note.querySelector(".title").value.trim();
+        const noteContent = note.querySelector(".content").value.trim();
+        const markdownContent = `# ${noteTitle || "Untitled Note"}\n\n${noteContent}`;
+        const blob = new Blob([markdownContent], { type: "text/markdown" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = noteTitle ? `${noteTitle}.md` : "note.md";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     // Delete Note
     delBtn.addEventListener("click", () => {
@@ -54,6 +69,9 @@ const addNote = (text = "", title = "") => {
 
     // Save Note
     saveButton.addEventListener("click", saveNotes);
+
+    // Download Note as a .md file
+    markdownBtn.addEventListener("click", downloadNoteAsMarkdown);
 
     // Share Note
     shareBtn.addEventListener("click", async () => {
