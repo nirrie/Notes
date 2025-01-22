@@ -1,5 +1,26 @@
 const addBtn = document.querySelector("#addBtn");
 const main = document.querySelector("#main");
+let lastScrolly = window.scrollY;
+
+// function to hide or show Add Note button
+const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrolly) {
+        // scroll down
+        addBtn.style.opacity = "0";
+        addBtn.style.pointerEvents = "none";
+    } else {
+        // scroll up
+        addBtn.style.opacity = "1";
+        addBtn.style.pointerEvents = "auto";
+    }
+
+    lastScrolly = currentScrollY;
+};
+
+// scroll event listener
+window.addEventListener("scroll", handleScroll);
 
 // Click event listener for the Add Note button
 addBtn.addEventListener("click", function () {
