@@ -32,7 +32,7 @@ const addNote = (text = "", title = "") => {
     note.innerHTML = `
         <div class="icons">
             <i class="share fa-solid fa-arrow-up-from-bracket"></i>
-            <i class="markdown fa-solid fa-file-arrow-down"></i>
+            <i class="text fa-solid fa-file-arrow-down"></i>
             <i class="save fas fa-save"></i>
             <i class="trash fas fa-trash"></i>
         </div>
@@ -43,18 +43,18 @@ const addNote = (text = "", title = "") => {
     main.appendChild(note);
 
     const shareBtn = note.querySelector(".share");
-    const markdownBtn = note.querySelector(".markdown");
+    const textBtn = note.querySelector(".text");
     const saveButton = note.querySelector(".save");
     const delBtn = note.querySelector(".trash");
 
-    const downloadNoteAsMarkdown = () => {
+    const downloadNoteAsText = () => {
         const noteTitle = note.querySelector(".title").value.trim();
         const noteContent = note.querySelector(".content").value.trim();
-        const markdownContent = `# ${noteTitle || "Untitled Note"}\n\n${noteContent}`;
-        const blob = new Blob([markdownContent], { type: "text/markdown" });
+        const textContent = `Title: ${noteTitle || "Untitled Note"}\n\n${noteContent}`;
+        const blob = new Blob([textContent], { type: "text/plain" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = noteTitle ? `${noteTitle}.md` : "note.md";
+        link.download = noteTitle ? `${noteTitle}.txt` : "note.txt";
 
         document.body.appendChild(link);
         link.click();
@@ -70,8 +70,8 @@ const addNote = (text = "", title = "") => {
     // Save Note
     saveButton.addEventListener("click", saveNotes);
 
-    // Download Note as a .md file
-    markdownBtn.addEventListener("click", downloadNoteAsMarkdown);
+    // Download Note as a .txt file
+    textBtn.addEventListener("click", downloadNoteAsText);
 
     // Share Note
     shareBtn.addEventListener("click", async () => {
