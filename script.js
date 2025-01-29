@@ -1,29 +1,81 @@
 const addBtn = document.querySelector("#addBtn");
 const main = document.querySelector("#main");
 let lastScrolly = window.scrollY;
+let scrollTimeout;
 
-// function to hide or show Add Note button
-const handleScroll = () => {
-    const currentScrollY = window.scrollY;
+// sidebar, use js because it's dynamic for the user
+const sidebar = document.createElement("div");
+sidebar.classList.add("sidebar");
+document.body.appendChild(sidebar);
 
-    if (currentScrollY > lastScrolly) {
-        // scroll down
-        addBtn.style.opacity = "0";
-        addBtn.style.pointerEvents = "none";
-    } else {
-        // scroll up
-        addBtn.style.opacity = "1";
-        addBtn.style.pointerEvents = "auto";
-    }
+// Add the "Add Note" button inside the sidebar
+const sidebarAddButton = document.createElement("button");
+sidebarAddButton.id = "addBtn";
+sidebarAddButton.textContent = "Add Note";
+sidebar.appendChild(sidebarAddButton);
 
-    lastScrolly = currentScrollY;
+// update sidebar
+const updateSidebar = () => {
+    sidebar.innerHTML = "";
+    const notes = document.querySelectorAll(".note .title");
+
+    // Add the "Add Note" button to the sidebar again after it gets removed during scrolling
+    sidebar.appendChild(sidebarAddButton);
+    
+    notes.forEach((note, index) => {
+        const titleText = note.value.trim() || `Note ${index + 1}`;
+        const sidebarItem = document.createElement("div");
+        sidebarItem.classList.add("sidebar-item");
+        sidebarItem.textContent = titleText;
+
+        sidebarItem.addEventListener("click", () => {
+            note.parentElement.scrollIntoView({ behavior: "smooth" });
+        });
+
+        sidebar.appendChild(sidebarItem);
+    });
 };
 
-// scroll event listener
-window.addEventListener("scroll", handleScroll);
+// Function the hide sidebar after 3 seconds
+const hideSidebar = () => {
+    sidebar.style.transform = "translateX(-100%)"; // Sidebar verbergen
+    sidebarAddButton.style.opacity = "0"; // Verberg add note knop
+    sidebarAddButton.style.pointerEvents = "none"; // Knop uitschakelen
+};
 
-// Click event listener for the Add Note button
-addBtn.addEventListener("click", function () {
+// Scroll event function
+const sidebarScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    clearTimeout(scrollTimeout); // 
+
+    // Scroll down to hide the sidebar
+    if (currentScrollY > lastScrolly) {
+        hideSidebar();
+    } else {
+        // Scroll up to show the sidebar
+        sidebar.style.transform = "translateX(0)"; // Show sidebar
+        sidebarAddButton.style.opacity = "1"; // Show button
+        sidebarAddButton.style.pointerEvents = "auto"; // button enable
+    }
+
+    // set timer to hide sidebar when stop scrolling
+    scrollTimeout = setTimeout(hideSidebar, 3000);
+
+    lastScrolly = currentScrollY; // Update scroll position
+};
+
+// Event listener voor scrolling
+window.addEventListener("scroll", sidebarScroll);
+
+// Set timer 
+scrollTimeout = setTimeout(hideSidebar, 3000);
+
+// scroll event listener
+window.addEventListener("scroll", sidebarScroll);
+
+// Click event listener for the Add Note button inside the sidebar
+sidebarAddButton.addEventListener("click", function () {
     addNote();
 });
 
@@ -126,3 +178,4 @@ function loadNotes() {
 }
 
 loadNotes();
+updateSidebar();
