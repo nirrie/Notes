@@ -8,6 +8,27 @@ const sidebar = document.createElement("div");
 sidebar.classList.add("sidebar");
 document.body.appendChild(sidebar);
 
+// sidebar hover detection on large screens (desktop)
+const sidebarHover = (e) => {
+    if (window.innerWidth >= 768) {
+        if (e.clientX < 50) {
+            sidebar.style.transform = "translateX(0)";
+        }
+    }
+};    
+
+//Hide sidebar when the mouse leaves the sidebar
+sidebar.addEventListener("mouseenter", () => {
+    sidebar.style.transform = "translateX(0)";
+});
+
+// Show sidebar when the mouse enters the sidebar
+sidebar.addEventListener("mouseleave", () => {
+    sidebar.style.transform = "translateX(-100%)";
+});
+
+window.addEventListener("mousemove", sidebarHover);
+
 // Add the "Add Note" button inside the sidebar
 const sidebarAddButton = document.createElement("button");
 sidebarAddButton.id = "addBtn";
@@ -38,9 +59,9 @@ const updateSidebar = () => {
 
 // Function the hide sidebar after 3 seconds
 const hideSidebar = () => {
-    sidebar.style.transform = "translateX(-100%)"; // Sidebar verbergen
-    sidebarAddButton.style.opacity = "0"; // Verberg add note knop
-    sidebarAddButton.style.pointerEvents = "none"; // Knop uitschakelen
+    sidebar.style.transform = "translateX(-100%)"; // Hide sidebar
+    sidebarAddButton.style.opacity = "0"; // Hide add note button
+    sidebarAddButton.style.pointerEvents = "none"; // disable button
 };
 
 // Scroll event function
