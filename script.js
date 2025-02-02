@@ -27,7 +27,20 @@ const updateSidebar = () => {
         sidebarItem.textContent = titleText;
 
         sidebarItem.addEventListener("click", () => {
-            scrollToNoteTitle(note.title);
+            const notes = document.querySelectorAll(".note .title");
+            let noteExists = false;
+
+            notes.forEach((existingNote) => {
+                if (existingNote.value.trim() === titleText) {
+                    existingNote.parentElement.scrollIntoView({ behavior: "smooth" });
+                    noteExists = true;
+                }
+            });
+            
+            //If note doesn't exist, add it back
+            if (!noteExists) {
+                addNote(note.content, note.title);
+            }
         });
 
         sidebar.appendChild(sidebarItem);
