@@ -53,7 +53,8 @@
     outline: 0;
     border-radius: 5px;
     transition: opacity 0.3s ease;
-    margin-top: 15px; /* Space out the Add button from other items */
+    margin-top: 15px; 
+    margin-left: 30px;
     cursor: pointer;
 }
 
@@ -69,9 +70,9 @@
 }
 
 .icons {
-    width: 90%; /* Same width as textarea */
-    max-width: 500px; /* Match max-width of textarea */
-    margin: 0 auto; /* Center-align */
+    width: 90%; 
+    max-width: 500px; 
+    margin: 0 auto; 
     background-color: #B795E4;
     color: #e9c880;
     padding: 5px;
@@ -93,8 +94,8 @@
 
 .note textarea {
     border: none;
-    width: 90%; /* Smaller width for large screens */
-    max-width: 500px; /* Limit the maximum width */
+    width: 90%; 
+    max-width: 500px; 
     min-height: 150px;
     resize: none;
     padding: 10px;
@@ -127,6 +128,7 @@
         "MORF" 15,
         "SHLN" 50;
     background: #95DFF2;
+    padding-left: 650px;
 }
 
 .note textarea:focus {
@@ -136,6 +138,9 @@
 
 /* Responsive Styling */
 @media (max-width: 767px) { 
+    .heading {
+        padding-left: 100px;
+    }
     .title-div textarea {
         width: 95%; /* Full width for smaller screens */
         font-size: 16px; /* Adjust font size */
@@ -145,3 +150,4 @@
         margin: 15px 0;
     }
 }
+
