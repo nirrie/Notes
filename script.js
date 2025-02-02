@@ -187,8 +187,21 @@ const addNote = (text = "", title = "") => {
 
     // Delete Note
     delBtn.addEventListener("click", () => {
-        note.remove();
-        saveNotes();
+        const title = note.querySelector(".title").value.trim();
+        const content = note.querySelector(".content").value.trim();
+        const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+        const noteExists = notes.some((n) => n.title === title && n.content === content);
+
+        if (noteExists) {
+            // Only remove note from UI, keep in sidebar & localStorage
+            note.remove();
+        } else {
+            // Remove note from UI, sidebar & localStorage
+            note.remove();
+            saveNotes();
+            updateSidebar();
+        }
     });
 
     // Save Note
